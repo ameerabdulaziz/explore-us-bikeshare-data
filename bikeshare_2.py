@@ -175,6 +175,7 @@ def display_users_counts(df, state):
     for state, count in user_states.items():
         print(f"The count of {state} = {count}")
 
+
 def user_stats(df):
     """Displays statistics on bikeshare users."""
 
@@ -200,17 +201,36 @@ def user_stats(df):
     print('-'*120)
 
 
+def show_row_data(df):
+    """
+    Asks the user to display 5 rows of raw data in the DataFrame based on the user choice.
+
+    Args:
+        (DataFrame) df - dataframe
+    """
+    number_of_rows = 0
+    while True:
+        choice = input('Would you like to see 5 rows of the raw data? Enter (yes or no): ').strip().lower()
+        if choice == 'yes':
+            print(df.iloc[number_of_rows:number_of_rows + 5])
+            number_of_rows += 5
+        else:
+            break
+
 def main():
     while True:
         city, month, day = get_filters()
         df = load_data(city, month, day)
+
         if df.empty:
             print(f'There is no data in {month} or on {day}')
             continue
+
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        show_row_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
